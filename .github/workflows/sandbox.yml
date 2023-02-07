@@ -5,11 +5,11 @@ on:
 
 jobs:
   sandbox:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install SLS
-        run: npm i -g serverless@3.x
+    runs-on: ubuntu-latest    
+    container:
+      image: docker/github-actions
 
+    steps:
       - name: sls version
         run: serverless --version
 
