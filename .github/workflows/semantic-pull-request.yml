@@ -1,6 +1,7 @@
 name: "Semantic Pull Request"
 
-on: workflow_dispatch:
+on: 
+  workflow_dispatch:
 
 jobs:
   main:

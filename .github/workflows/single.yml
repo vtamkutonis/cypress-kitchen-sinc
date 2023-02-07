@@ -2,12 +2,13 @@
 # https://help.github.com/en/articles/configuring-a-workflow
 name: Cypress tests
 
-on: workflow_dispatch:
+on: 
+  workflow_dispatch:
 
 jobs:
   test1:
     name: Cypress test
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
 
