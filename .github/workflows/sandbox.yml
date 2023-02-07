@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  chrome:
+  sandbox:
     runs-on: ubuntu-latest
     steps:
       - name: Install SLS
         run: npm i -g serverless@3.x
 
       - name: Install SLS
-      run: serverless --version
+        run: serverless --version
