@@ -1,0 +1,14 @@
+name: Sandbox
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  chrome:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install SLS
+        run: npm i -g serverless@3.x
+
+      - name: Install SLS
+      run: serverless --version
