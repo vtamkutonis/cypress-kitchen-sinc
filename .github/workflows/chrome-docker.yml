@@ -1,6 +1,6 @@
 name: Chrome Docker
 
-on: push
+on: workflow_dispatch:
 
 jobs:
   # run Chrome inside a Docker container
