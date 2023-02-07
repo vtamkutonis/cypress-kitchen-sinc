@@ -10,5 +10,11 @@ jobs:
       - name: Install SLS
         run: npm i -g serverless@3.x
 
-      - name: Install SLS
+      - name: sls version
         run: serverless --version
+
+      - name: docker version
+        run: docker --version
+
+      - name: aws version
+        run: aws --version
