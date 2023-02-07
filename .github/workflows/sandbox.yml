@@ -3,7 +3,8 @@ name: Sandbox
 on: 
   workflow_dispatch:
 on: 
-  push
+  push:
+    branches: ['*']
 
 jobs:
   sandbox:
