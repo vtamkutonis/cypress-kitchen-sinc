@@ -27,6 +27,4 @@ jobs:
 #        run: docker --version
 
       - name: aws version
-        run: |
-          aws
-          echo "${{ github.event.inputs.test-group }} 
+        run: aws ${{ github.event.inputs.test-group }} 
