@@ -12,6 +12,7 @@ jobs:
       with:
         # Checkout as many commits as needed for the diff
         fetch-depth: 2
+
     - shell: pwsh
       # Give an id to the step, so we can reference it later
       id: check_file_changed
@@ -33,5 +34,5 @@ jobs:
     # Run the step only with "docs_changed" equals "True"
     - shell: pwsh
       # steps.<step_id>.outputs.<output name>
-      if: steps.check_file_changed.outputs.docs_changed == 'true'
-      run: echo publish docs
+      #if: steps.check_file_changed.outputs.docs_changed == 'true'
+      run: echo steps.check_file_changed.outputs.docs_changed
