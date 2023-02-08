@@ -36,8 +36,8 @@ jobs:
 
       - name: info
         run: |
-          echo "test-group= ${{ env.test-group }} "
-          echo "build-before-test= ${{ env.build-before-test }} "
+          echo "test-group-var= ${{ env.test-group-var }} "
+          echo "build-before-test-var= ${{ env.build-before-test-var }} "
           
       - name: build-before-test is not false
         if: env.build-before-test-var == true
@@ -46,8 +46,8 @@ jobs:
 
       #- name: node prompt
       #  if: env.test-group-var != ''
-      #  run: node ${{ env.test-group }} 
+      #  run: node ${{ env.test-group-var }} 
 
       #- name: node version
       #  if: env.test-group-var == ''
-      #  run: node ${{ env.test-group }} 
+      #  run: node ${{ env.test-group-var }} 
