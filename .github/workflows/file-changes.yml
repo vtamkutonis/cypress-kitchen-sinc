@@ -20,7 +20,9 @@ jobs:
 
         $SourceDiff = $diff | Where-Object { $_ -match '^app/' -or $_ -match '.yml$' }
         $HasDiff = $SourceDiff.Length -gt 0
-        
+
+        echo $diff.Length
+
         #Write-Host "::set-output name=docs_changed::$HasDiff"
         echo "{docs_changed}={$HasDiff}" >> $GITHUB_OUTPUT
 
