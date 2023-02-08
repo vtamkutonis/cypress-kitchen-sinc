@@ -9,8 +9,8 @@ on:
 jobs:
   sandbox:
     runs-on: ubuntu-latest    
-    container:
-      image: docker/github-actions
+    # container:
+    #   image: docker/github-actions
 
     steps:
       - name: sls version
