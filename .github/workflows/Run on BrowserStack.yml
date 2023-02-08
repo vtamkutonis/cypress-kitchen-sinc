@@ -37,7 +37,7 @@ jobs:
         build-name: ${{ github.event.inputs.build-name }}
 
     - name: BrowserStack CLI Install
-      run: npm install browserstack-cypress-cli
+      run: npm install browserstack-cypress-cli -g
 
     - name: Npm Install
       run: npm install
