@@ -23,6 +23,8 @@ jobs:
         $SourceDiff = $diff | Where {$_ -match $filter}
         $HasDiff = $SourceDiff.Length -gt 0
 
+        echo $SourceDiff.Length
+        echo $HasDiff
         echo $diff.Length
         echo $diff
 
