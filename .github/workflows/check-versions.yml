@@ -18,8 +18,8 @@ on:
         required: true
 
 env:
-  test-group-var: ${{ github.event.inputs.test-group}}:-"--none"
-  buil-before-test-var: ${{ github.event.inputs.build-before-test }}:-true
+  test-group-var: ${{ github.event.inputs.test-group || "--default" }}
+  buil-before-test-var: ${{ github.event.inputs.build-before-test || true }}
 
 jobs:
   check-versions:
