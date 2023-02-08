@@ -40,7 +40,7 @@ jobs:
           echo "build-before-test-var= ${{ env.build-before-test-var }} "
           
       - name: build-before-test is not false
-        if: env.build-before-test-var
+        if: env.build-before-test-var == 'true'
         run: |
           echo "build-before-test is true "
 
