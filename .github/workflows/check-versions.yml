@@ -26,5 +26,10 @@ jobs:
 #      - name: docker version
 #        run: docker --version
 
+      - name: aws prompt
+        if: ${{ github.event.inputs.test-group }} > ''
+        run: aws ${{ github.event.inputs.test-group }} 
+
       - name: aws version
+        if: ${{ github.event.inputs.test-group }} == ''
         run: aws ${{ github.event.inputs.test-group }} 
