@@ -18,7 +18,7 @@ on:
         required: true
 
 env:
-  test-group-var: ${{ github.event.inputs.test-group || "--default" }}
+  test-group-var: ${{ github.event.inputs.test-group || '--default' }}
   buil-before-test-var: ${{ github.event.inputs.build-before-test || true }}
 
 jobs:
