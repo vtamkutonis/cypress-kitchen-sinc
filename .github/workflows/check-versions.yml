@@ -4,7 +4,22 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      test-group: 
+        type: choice
+        description: 'Run only test group'             
+        options: 
+        - "--help"
+        - "--version"
+      build-before-test:
+        type: boolean
+        description: 'Build before tests'
+        default: true
+        required: true
 
+env:
+  test-group-var: ${{ github.event.inputs.test-group || '--default' }}
+  build-before-test-var: ${{ github.event.inputs.build-before-test || true }}
 
 jobs:
   check-versions:
@@ -13,14 +28,26 @@ jobs:
     #   image: docker/github-actions
 
     steps:
-      - name: sls install
-        run: npm install -g serverless
+#      - name: sls install
+#        run: npm install -g serverless
 
-      - name: sls version
-        run: serverless --version
+#      - name: sls version
+#        run: serverless --version
 
-      - name: docker version
-        run: docker --version
+      - name: info
+        run: |
+          echo "test-group-var= ${{ env.test-group-var }} "
+          echo "build-before-test-var= ${{ env.build-before-test-var }} "
+          
+      - name: build-before-test is not false
+        if: env.build-before-test-var == 'true'
+        run: |
+          echo "build-before-test is true "
 
-      - name: aws version
-        run: aws --version
+      #- name: node prompt
+      #  if: env.test-group-var != ''
+      #  run: node ${{ env.test-group-var }} 
+
+      #- name: node version
+      #  if: env.test-group-var == ''
+      #  run: node ${{ env.test-group-var }} 
