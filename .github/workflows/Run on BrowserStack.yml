@@ -13,9 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Info
+
+    - name: Info    
+      env:
+        BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
       run: |
-        echo "User name: ${{ secrets.BROWSERSTACK_USERNAME }}"
+        echo "User name: ${{ env.BROWSERSTACK_USERNAME }}"
         echo "Build name: ${{ github.event.inputs.build-name }}"
 
     - name: Checkout
@@ -27,12 +30,14 @@ jobs:
         node-version: 16
 
     - name: 'BrowserStack Env Setup'
-      uses: 'browserstack/github-actions/setup-env@master'
+      uses: 'browserstack/github-actions/setup-env@master'          
+      env:
+        BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+        BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
       with:
-        username:  ${{ secrets.BROWSERSTACK_USERNAME }}
-        access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        username:  ${{ env.BROWSERSTACK_USERNAME }}
+        access-key: ${{ env.BROWSERSTACK_ACCESS_KEY }}
         build-name: ${{ github.event.inputs.build-name }}
-
 
     - name: BrowserStack CLI Install
       run: npm install browserstack-cypress-cli
