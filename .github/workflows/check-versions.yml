@@ -11,6 +11,11 @@ on:
         options: 
         - "--help"
         - "--version"
+      build-before-test:
+        type: boolean
+        description: 'Build before tests'
+        default: true
+        required: true
 
 
 jobs:
@@ -27,12 +32,19 @@ jobs:
 #        run: serverless --version
 
       - name: info
-        run: echo "input= ${{ github.event.inputs.test-group }} "
+        run: |
+          echo "test-group= ${{ github.event.inputs.test-group }} "
+          echo "build-before-test= ${{ github.event.inputs.build-before-test }} "
+          
+      - name: build-before-test is true
+        if: github.event.inputs.build-before-test
+        run: |
+          echo "build-before-test is true "
 
-      - name: node prompt
-        if: github.event.inputs.test-group != ''
-        run: node ${{ github.event.inputs.test-group }} 
+      #- name: node prompt
+      #  if: github.event.inputs.test-group != ''
+      #  run: node ${{ github.event.inputs.test-group }} 
 
-      - name: node version
-        if: github.event.inputs.test-group == ''
-        run: node ${{ github.event.inputs.test-group }} 
+      #- name: node version
+      #  if: github.event.inputs.test-group == ''
+      #  run: node ${{ github.event.inputs.test-group }} 
