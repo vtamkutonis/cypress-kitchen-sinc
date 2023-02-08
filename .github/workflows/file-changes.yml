@@ -22,6 +22,7 @@ jobs:
         $HasDiff = $SourceDiff.Length -gt 0
 
         echo $diff.Length
+        echo $diff
 
         #Write-Host "::set-output name=docs_changed::$HasDiff"
         echo "{docs_changed}={$HasDiff}" >> $GITHUB_OUTPUT
