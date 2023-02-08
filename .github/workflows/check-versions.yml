@@ -36,8 +36,8 @@ jobs:
           echo "test-group= ${{ github.event.inputs.test-group }} "
           echo "build-before-test= ${{ github.event.inputs.build-before-test }} "
           
-      - name: build-before-test is true
-        if: github.event.inputs.build-before-test
+      - name: build-before-test is not false
+        if: github.event.inputs.build-before-test != false
         run: |
           echo "build-before-test is true "
 
