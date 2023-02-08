@@ -3,7 +3,8 @@ name: Run on BrowserStack
 on: 
   workflow_dispatch:
     inputs:
-      build-name: 'Name of the buid'     
+      build-name: 
+        description: 'Name of the buid'     
         required: true
         default: 'daily'
 
