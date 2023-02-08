@@ -4,6 +4,10 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      test-group: 
+        description: 'Run only test group'             
+        default: '--version'
 
 
 jobs:
@@ -13,14 +17,16 @@ jobs:
     #   image: docker/github-actions
 
     steps:
-      - name: sls install
-        run: npm install -g serverless
+#      - name: sls install
+#        run: npm install -g serverless
 
-      - name: sls version
-        run: serverless --version
+#      - name: sls version
+#        run: serverless --version
 
-      - name: docker version
-        run: docker --version
+#      - name: docker version
+#        run: docker --version
 
       - name: aws version
-        run: aws --version
+        run: |
+          aws
+          echo "${{ github.event.inputs.test-group }} 
