@@ -12,6 +12,8 @@ jobs:
   browser-stack:
     runs-on: ubuntu-latest
 
+    environment: sandbox
+
     steps:
 
     - name: Info    
