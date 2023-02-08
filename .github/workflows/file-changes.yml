@@ -18,13 +18,14 @@ jobs:
       run: |
         $diff = git diff --name-only HEAD^ HEAD
 
-        $SourceDiff = $diff | Where-Object { $_ -match '^app/' -or $_ -match '.yml$' }
+        $filter = "^app/",".yml$" -join '|'
+        
+        $SourceDiff = $diff | Where {$_ -match $filter}
         $HasDiff = $SourceDiff.Length -gt 0
 
         echo $diff.Length
         echo $diff
 
-        #Write-Host "::set-output name=docs_changed::$HasDiff"
         echo "{docs_changed}={$HasDiff}" >> $GITHUB_OUTPUT
 
     # Run the step only with "docs_changed" equals "True"
