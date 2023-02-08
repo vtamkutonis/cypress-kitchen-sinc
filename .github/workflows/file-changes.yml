@@ -16,15 +16,13 @@ jobs:
       # Give an id to the step, so we can reference it later
       id: check_file_changed
       run: |
-        # Diff HEAD with the previous commit
         $diff = git diff --name-only HEAD^ HEAD
 
-        # Check if a file under docs/ or with the .md extension has changed (added, modified, deleted)
-        $SourceDiff = $diff | Where-Object { $_ -match '^docs/' -or $_ -match '.md$' }
+        $SourceDiff = $diff | Where-Object { $_ -match '^app/' -or $_ -match '.yml$' }
         $HasDiff = $SourceDiff.Length -gt 0
-
-        # Set the output named "docs_changed"
-        Write-Host "::set-output name=docs_changed::$HasDiff"
+        
+        #Write-Host "::set-output name=docs_changed::$HasDiff"
+        echo "{docs_changed}={$HasDiff}" >> $GITHUB_OUTPUT
 
     # Run the step only with "docs_changed" equals "True"
     - shell: pwsh
