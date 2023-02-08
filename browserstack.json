@@ -1,0 +1,36 @@
+{
+    "auth": {
+        "username": "--",
+        "access_key": "--"
+    },
+    "browsers": [
+        {
+            "browser": "chrome",
+            "os": "Windows 10",
+            "versions": [
+                "latest",
+                "latest-1"
+            ]
+        }
+    ],
+    "run_settings": {
+        "cypress_config_file": "./cypress.config.js",
+        "project_name": "cypress-example-kitchensink",
+        "build_name": "daily build",
+        "exclude": [],
+        "parallels": "1",
+        "npm_dependencies": {
+            "npm-run-all": "^4.1.2",
+            "serve": "11.3.0"
+        },
+        "package_config_options": {},
+        "headless": true
+    },
+    "connection_settings": {
+        "local": true,
+        "local_identifier": "localhost-8080",
+        "local_mode": null,
+        "local_config_file": null
+    },
+    "disable_usage_reporting": false
+}
