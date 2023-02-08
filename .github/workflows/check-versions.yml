@@ -17,6 +17,9 @@ on:
         default: true
         required: true
 
+env:
+  test-group-var: github.event.inputs.test-group:-"--none"
+  buil-before-test-var: github.event.inputs.build-before-test:-true
 
 jobs:
   check-versions:
@@ -33,18 +36,18 @@ jobs:
 
       - name: info
         run: |
-          echo "test-group= ${{ github.event.inputs.test-group }} "
-          echo "build-before-test= ${{ github.event.inputs.build-before-test }} "
+          echo "test-group= ${{ env.test-group }} "
+          echo "build-before-test= ${{ env.build-before-test }} "
           
       - name: build-before-test is not false
-        if: github.event.inputs.build-before-test != false
+        if: env.build-before-test-var == true
         run: |
           echo "build-before-test is true "
 
       #- name: node prompt
-      #  if: github.event.inputs.test-group != ''
-      #  run: node ${{ github.event.inputs.test-group }} 
+      #  if: env.test-group-var != ''
+      #  run: node ${{ env.test-group }} 
 
       #- name: node version
-      #  if: github.event.inputs.test-group == ''
-      #  run: node ${{ github.event.inputs.test-group }} 
+      #  if: env.test-group-var == ''
+      #  run: node ${{ env.test-group }} 
