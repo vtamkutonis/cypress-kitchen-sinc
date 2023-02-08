@@ -26,8 +26,8 @@ jobs:
 #      - name: sls version
 #        run: serverless --version
 
-#      - name: docker version
-#        run: docker --version
+      - name: info
+        run: echo "input= ${{ github.event.inputs.test-group }} "
 
       - name: node prompt
         if: ${{ github.event.inputs.test-group }} > ''
