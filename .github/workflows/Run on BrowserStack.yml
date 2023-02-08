@@ -18,7 +18,6 @@ jobs:
 
     - name: Info    
       run: |
-        echo "User name: ${{ secrets.BROWSERSTACK_USERNAME }}"
         echo "Build name: ${{ github.event.inputs.build-name }}"
 
     - name: Checkout
@@ -42,7 +41,5 @@ jobs:
     - name: Npm Install
       run: npm install
 
-    - name: Start local server and Run Test
-      run: |
-        npm run start &
-        browserstack-cypress run
+    - name: Run Tests
+      run: browserstack-cypress run

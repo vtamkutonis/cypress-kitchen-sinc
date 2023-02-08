@@ -27,8 +27,8 @@
         "headless": true
     },
     "connection_settings": {
-        "local": true,
-        "local_identifier": "localhost-8080",
+        "local": false,
+        "local_identifier": null,
         "local_mode": null,
         "local_config_file": null
     },
