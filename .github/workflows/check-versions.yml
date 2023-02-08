@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       test-group: 
+        type: choice
         description: 'Run only test group'             
         options: 
         - "--help"
