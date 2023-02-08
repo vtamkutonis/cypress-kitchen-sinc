@@ -7,7 +7,9 @@ on:
     inputs:
       test-group: 
         description: 'Run only test group'             
-        default: '--version'
+        options: 
+        - "--help"
+        - "--version"
 
 
 jobs:
@@ -26,10 +28,10 @@ jobs:
 #      - name: docker version
 #        run: docker --version
 
-      - name: aws prompt
+      - name: node prompt
         if: ${{ github.event.inputs.test-group }} > ''
-        run: aws ${{ github.event.inputs.test-group }} 
+        run: node ${{ github.event.inputs.test-group }} 
 
-      - name: aws version
+      - name: node version
         if: ${{ github.event.inputs.test-group }} == ''
-        run: aws ${{ github.event.inputs.test-group }} 
+        run: node ${{ github.event.inputs.test-group }} 
