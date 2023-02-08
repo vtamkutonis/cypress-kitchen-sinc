@@ -30,9 +30,9 @@ jobs:
         run: echo "input= ${{ github.event.inputs.test-group }} "
 
       - name: node prompt
-        if: ${{ github.event.inputs.test-group }} > ''
+        if: github.event.inputs.test-group != ''
         run: node ${{ github.event.inputs.test-group }} 
 
       - name: node version
-        if: ${{ github.event.inputs.test-group }} == ''
+        if: github.event.inputs.test-group == ''
         run: node ${{ github.event.inputs.test-group }} 
