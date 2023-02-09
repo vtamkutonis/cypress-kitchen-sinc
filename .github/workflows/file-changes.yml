@@ -5,7 +5,8 @@ on:
     branches:
       - 'main'
       - 'master'
-  
+      
+  workflow_dispatch:
   
 jobs:
   job1:
@@ -30,6 +31,7 @@ jobs:
         
     - name: check2
       run: |
+        echo "Event: " ${{ github.event }}
         echo "app-changes: " ${{steps.changes.outputs.app-changes}}
         echo "cypress-changes: " ${{steps.changes.outputs.cypress-changes}}
         echo "json-or-yml-changes: " ${{steps.changes.outputs.json-or-yml-changes}}
