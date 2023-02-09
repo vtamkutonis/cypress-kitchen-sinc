@@ -21,7 +21,8 @@ jobs:
 
     steps:
     - run: |
-       echo "HEADREF " $GITHUB_HEAD_REF
+       echo "actor " ${{ github.actor }}
+       echo "Trig actor " ${{ github.triggering_actor }}
        echo "Branch: " ${{ github.head_ref }}
        node ${{ env.node_version }}
    
