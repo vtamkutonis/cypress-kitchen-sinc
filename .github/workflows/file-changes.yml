@@ -47,4 +47,4 @@ jobs:
     needs: job1
     steps:
       - run: |
-        echo ""docs_changed: ${{needs.job1.outputs.docs_changed}}"
+          echo "docs_changed: ${{needs.job1.outputs.docs_changed}}"
