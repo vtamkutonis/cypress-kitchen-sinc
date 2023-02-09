@@ -18,10 +18,10 @@ jobs:
     - name: s1
       run: |
         cd ./scripts
-        lst
+        ls
   
     - name: s2
       run: |
         cd ../app
-        lst
+        ls
         
