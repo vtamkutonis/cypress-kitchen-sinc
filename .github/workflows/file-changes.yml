@@ -8,24 +8,26 @@ on:
   
   
 jobs:
-  detect-important-changes:
+  filter-source-branches:
     if: startsWith(github.head_ref, 'chore/') == false && startsWith(github.head_ref, 'docs/') == false
+    runs-on: ubuntu-latest
     
+  detect-important-changes:
+  
+    needs: filter-source-branches
+
     runs-on: ubuntu-latest
 
     outputs:
       app-changes: ${{ steps.changes.outputs.app-changes }} 
 
     steps:
-    - uses: actions/checkout@v3
-        
     - uses: dorny/paths-filter@v2
       id: changes
       with:
         filters: |
           app-changes:
             - 'app/**'
-
         
     - name: output
       run: |
