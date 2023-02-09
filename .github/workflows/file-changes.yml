@@ -17,7 +17,7 @@ jobs:
       app-changes: ${{ steps.changes.outputs.app-changes }} 
 
     env:
-      are_changes: Monday
+      are_changes: false
 
     steps:
     - uses: dorny/paths-filter@v2
@@ -29,9 +29,12 @@ jobs:
           tsjs-changes:
             - '!(app|scripts)/**/**.{ts,js}'
         
+    - name: var
+      run: |
+        are_changes = steps.changes.outputs.app-changes || steps.changes.outputs.tsjs-changes
+
     - name: output
       run: |
-        $are_changes = steps.changes.outputs.app-changes || steps.changes.outputs.tsjs-changes
         echo "app-changes: " ${{steps.changes.outputs.app-changes}}
         echo "tsjs-changes: " ${{steps.changes.outputs.tsjs-changes}}
         echo "are_changes: " $are_changes
