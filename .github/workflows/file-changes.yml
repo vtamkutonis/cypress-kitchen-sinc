@@ -22,6 +22,11 @@ jobs:
   
     - name: s2
       run: |
-        cd ../app
+        cd ./app
         ls
         
+    - name: s2
+      run: |
+        cd ./cypress
+        cd ./e2e
+        ls
