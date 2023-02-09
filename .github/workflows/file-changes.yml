@@ -15,44 +15,11 @@ jobs:
 
     outputs:
       app-changes: ${{ steps.changes.outputs.app-changes }} 
+      
+    env:      
+      node_version: "node --version"
 
     steps:
-    - uses: dorny/paths-filter@v2
-      id: changes
-      with:
-        filters: |
-          app-changes:
-            - 'app/**'
-          tsjs-changes:
-            - '!(app|scripts)/**/**.{ts,js}'
-        
-    - name: output
-      run: |
-        echo "app-changes: " ${{steps.changes.outputs.app-changes}}
-        echo "tsjs-changes: " ${{steps.changes.outputs.tsjs-changes}}
-      
-  run-what-needed:
-    runs-on: ubuntu-latest
-    
-    needs: importan-changes-gatekeeper
-
-    env:
-      are_changes: ${{ (needs.importan-changes-gatekeeper.outputs.app-changes == 'true') || (needs.importan-changes-gatekeeper.outputs.tsjs-changes == 'true') }}
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: output
-      run: |
-        echo "are_changes: " ${{ env.are_changes }}
-
-    - name: output
-      if: needs.importan-changes-gatekeeper.outputs.app-changes == 'true'
-      run: |
-        echo "YES app-changes: " ${{needs.importan-changes-gatekeeper.outputs.app-changes}}
-      
-    - name: output
-      if: needs.importan-changes-gatekeeper.outputs.app-changes != 'true'
-      run: |
-        echo "NOT app-changes: " ${{needs.importan-changes-gatekeeper.outputs.app-changes}}
-      
+    - run: |
+       echo ${{ node_version }}
+   
