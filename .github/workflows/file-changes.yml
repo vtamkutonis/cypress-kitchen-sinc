@@ -24,7 +24,7 @@ jobs:
           app-changes:
             - 'app/**'
           tsjs-changes:
-            - '!(app|scripts)/**.{ts,js}'
+            - '!(app|scripts)/**/**.{ts,js}'
         
     - name: output
       run: |
