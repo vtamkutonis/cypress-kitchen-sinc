@@ -12,9 +12,10 @@ jobs:
       docs_changed: ${{ steps.check1.outputs.docs_changed }}
 
     steps:
+    - uses: actions/checkout@v2
+        
     - name: check1
-      shell: bash
-
+      shell: pwsh
       id: check_file_changed
       run: |
         $diff = git diff --name-only HEAD^ HEAD
