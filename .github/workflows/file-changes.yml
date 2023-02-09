@@ -2,13 +2,14 @@ name: File Changes
 
 on:
   pull_request:
-    branches-ignore:
-      - 'chore/**'
-      - 'docs/**'
+    branches:
+      - 'main'
+      - 'master'
   
   
 jobs:
   job1:
+    if: startsWith(github.head_ref, 'chore/') == false && startsWith(github.head_ref, 'docs/') == false
     runs-on: ubuntu-latest
 
     steps:
