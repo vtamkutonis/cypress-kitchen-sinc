@@ -1,0 +1,168 @@
+name: Run tests and test builds
+
+# We want to run this workflow when pull request to next or master is created or updated
+on:
+#  pull_request:
+#    branches:
+#      - 'next'
+#      - 'master'
+
+  workflow_dispatch:
+    inputs:
+      test-suite:
+        type: choice
+        description: 'Run Test Suite'
+        default: "-all-"
+        options:
+          - "-all-"
+          - "Query Helper"
+          - "APIHandler"
+          - "ListingManager"
+          - "EntityHelper"
+          - "PaymentService"
+          - "ExternalOrdersHandler"
+          - "ticketsHooks"
+          - "WebhooksHandler"
+          - "AvailableBalanceHandler"
+          - "BalanceManager"
+          - "UUID"
+          - "listingUtil"
+          - "dateUtil"
+jobs:
+  important-changes-filter:
+    # We do not want to run this workflow if changes come from chore/ or docs/ branches or PR is marked as draft
+    if: startsWith(github.head_ref, 'chore/') == false && startsWith(github.head_ref, 'docs/') == false && github.event.pull_request.draft == false
+
+    env:
+      run-on-demand: ${{ github.event_name == 'workflow_dispatch' }}
+
+    runs-on: ubuntu-latest
+
+    outputs:
+      web-changes: ${{ steps.changes.outputs.web-changes }}
+      admin-changes: ${{ steps.changes.outputs.admin-changes }}
+      services-changes: ${{ steps.changes.outputs.services-changes }}
+
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: changes
+        if: env.run-on-demand == false
+        name: Check code changes
+        with:
+          filters: |
+            web-changes:
+              - 'web/**'
+            admin-changes:
+              - 'admin/**'
+            services-changes:
+            - '!(web|admin)/**/**.{ts,js}'
+
+      - name: Info
+        run: |
+          echo "Branch: " ${{ github.head_ref }}
+          echo "Event: " ${{ github.event_name }}
+          echo "Main Site App changes detected: " ${{ steps.changes.outputs.web-changes }}
+          echo "Admin/Com App changes detected: " ${{ steps.changes.outputs.admin-changes }}
+          echo "Services code changes detected: " ${{ steps.changes.outputs.services-changes }}
+
+  build-and-run-tests:
+    needs: important-changes-filter
+
+    runs-on: ubuntu-latest
+
+    env:
+      run-on-demand: ${{ github.event_name == 'workflow_dispatch' }}
+      test-suite:    ${{ github.event.inputs.test-suite || '-all-' }}
+      changed-services: ${{ (needs.important-changes-filter.outputs.services-changes == 'true') }}
+      changed-web:      ${{ (needs.important-changes-filter.outputs.web-changes == 'true') }}
+      changed-admin:    ${{ (needs.important-changes-filter.outputs.admin-changes == 'true') }}
+      build-all:        ${{ (needs.important-changes-filter.outputs.services-changes == 'true') && (needs.important-changes-filter.outputs.web-changes != 'true') && (needs.important-changes-filter.outputs.admin-changes != 'true') }}
+      build-web-only:   ${{ (needs.important-changes-filter.outputs.services-changes != 'true') && (needs.important-changes-filter.outputs.web-changes == 'true') && (needs.important-changes-filter.outputs.admin-changes != 'true') }}
+      build-admin-only: ${{ (needs.important-changes-filter.outputs.services-changes != 'true') && (needs.important-changes-filter.outputs.web-changes != 'true') && (needs.important-changes-filter.outputs.admin-changes == 'true') }}
+      rush-install: "common/scripts/install-run-rush.js install"
+      rush-build:   "common/scripts/install-run-rush.js build"
+
+
+    steps:
+    - name: Info
+      run: |
+        echo "run-on-demand: " ${{ env.run-on-demand }}
+        echo "test-suite: " ${{ env.test-suite }}
+        echo "changed-services: " ${{ env.changed-services }}
+        echo "changed-web: " ${{ env.changed-web }}
+        echo "changed-admin: " ${{ env.changed-admin }}
+        echo "build-all: " ${{ env.build-all }}
+        echo "build-web-only: " ${{ env.build-web-only }}
+        echo "build-admin-only: " ${{ env.build-admin-only }}
+
+    - name: Setup Node 14
+      uses: actions/setup-node@v3
+      with:
+        node-version: 14
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # If we see that changes are done to services - install and build all packages, will reuse that if needed for Web and Admin
+    - name: All - Rush Install
+      if: env.build-all || env.run-on-demand
+      run: node ${{ env.rush-install }}
+
+    - name: All - Rush Build
+      if: env.build-all || env.run-on-demand
+      run: node ${{ env.rush-build }}
+
+    - name: Run backend services tests
+      if: env.changed-services || (env.run-on-demand && env.test-suite == '-all-')
+      run: |
+        cd ./services
+        gulp test
+
+    - name: Run manually triggered backend services test suite
+      if: env.run-on-demand && env.test-suite != '-all-'
+      run: |
+        cd ./services
+        gulp test --grep ${{ env.test-suite }}
+
+
+    # Conditionally build web only if no other changes were detected
+    - name: Web - Rush Install
+      if: env.build-web-only
+      run: node ${{ env.rush-install }} --to ticombo-web
+
+    - name: Web - Rush Build Packages
+      if: env.build-web-only
+      run: node ${{ env.rush-build }} --to-except ticombo-web
+
+    - name: Web - Build
+      if: env.changed-web
+      run: |
+        cd ../web
+        npm run translate-extract && npm run build:aot
+
+    # Conditionally build admin only if no other changes were detected
+    - name: Admin - Rush Install
+      if: env.build-admin-only
+      run: node ${{ env.rush-install }} --to ticombo-admin-web
+
+    - name: Admin - Rush Build Packages
+      if: env.build-admin-only
+      run: node ${{ env.rush-build }} --to-except ticombo-admin-web
+
+    - name: Admin - Build
+      if: env.build-admin-only
+      run: |
+        cd ../admin
+        npm run build:aot
+
+#    - name: Slack Notification on Failure
+#      if: failure()
+#      uses: rtCamp/action-slack-notify@v2
+#      env:
+#        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+#        SLACK_COLOR: ${{ job.status }}
+#        SLACK_CHANNEL: builds
+#        SLACK_TITLE: Unit tests or/and web app builds failed
+#        SLACK_ICON_EMOJI: :bell:
+#        SLACK_MESSAGE: --
+#        SLACK_USERNAME: Ticombo Builds
