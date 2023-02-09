@@ -3,7 +3,8 @@ name: File Changes
 on:
   push:
   workflow_dispatch:
-
+  
+  
 jobs:
   job1:
     runs-on: ubuntu-latest
@@ -11,30 +12,10 @@ jobs:
       docs_changed: ${{ steps.check1.outputs.docs_changed }}
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        # Checkout as many commits as needed for the diff
-        fetch-depth: 2
+    - id: check1
+      run: echo "docs_changed=True" >> $GITHUB_OUTPUT
         
-    - name: get-file-changes
-      shell: pwsh
-      id: check1
-      run: |
-        $diff = git diff --name-only HEAD^ HEAD
 
-        $filter = "^app/",".yml$" -join '|'
-        
-        $SourceDiff = $diff | Where {$_ -match $filter}
-        $HasDiff = $SourceDiff.Length -gt 0
-
-        echo $SourceDiff.Length
-        echo $HasDiff
-        echo $diff.Length
-        echo $diff
-
-        #echo "docs_changed=$HasDiff" >> $GITHUB_OUTPUT
-        echo "docs_changed=True" >> $GITHUB_OUTPUT
-        
     - name: check2
       run: |
         echo "docs_changed: " ${{steps.check1.outputs.docs_changed}}
