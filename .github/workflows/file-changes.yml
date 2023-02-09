@@ -21,5 +21,7 @@ jobs:
 
     steps:
     - run: |
+       echo "HEADREF " ${{ GITHUB_HEAD_REF }}
+       echo "Branch: " ${{ github.head_ref }}
        node ${{ env.node_version }}
    
