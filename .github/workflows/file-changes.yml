@@ -5,15 +5,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  conditional_step:
+  job1:
     runs-on: ubuntu-latest
+    outputs:
+      docs_changed: ${{ steps.check1.outputs.docs_changed }}
+
     steps:
     - uses: actions/checkout@v2
       with:
         # Checkout as many commits as needed for the diff
         fetch-depth: 2
+        
+    - name: check1
+      run: echo ${{steps.check1.outputs.docs_changed}}
 
-    - shell: pwsh
+    - name: check1
+      shell: pwsh
       # Give an id to the step, so we can reference it later
       id: check_file_changed
       run: |
@@ -30,9 +37,12 @@ jobs:
         echo $diff
 
         echo "{docs_changed}={$HasDiff}" >> $GITHUB_OUTPUT
+        
+    - name: check1
+      run: echo ${{steps.check1.outputs.docs_changed}}
 
-    # Run the step only with "docs_changed" equals "True"
-    - shell: pwsh
-      # steps.<step_id>.outputs.<output name>
-      #if: steps.check_file_changed.outputs.docs_changed == 'true'
-      run: echo ${{ steps.check_file_changed.outputs.docs_changed }}
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - run: echo ${{needs.job1.outputs.docs_changed}}
