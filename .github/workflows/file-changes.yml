@@ -16,9 +16,6 @@ jobs:
     outputs:
       app-changes: ${{ steps.changes.outputs.app-changes }} 
 
-    env:
-      are_changes: false
-
     steps:
     - uses: dorny/paths-filter@v2
       id: changes
@@ -29,10 +26,6 @@ jobs:
           tsjs-changes:
             - '!(app|scripts)/**/**.{ts,js}'
         
-    - name: var
-      run: |
-        are_changes = steps.changes.outputs.app-changes || steps.changes.outputs.tsjs-changes
-
     - name: output
       run: |
         echo "app-changes: " ${{steps.changes.outputs.app-changes}}
@@ -44,8 +37,15 @@ jobs:
     
     needs: importan-changes-gatekeeper
 
+    env:
+      are_changes: ${{ steps.changes.outputs.app-change }} == 'true' || ${{ steps.changes.outputs.tsjs-change }} == 'true'
+
     steps:
     - uses: actions/checkout@v2
+
+    - name: output
+      run: |
+        echo "are_changes: " ${{env.are_changes}}
 
     - name: output
       if: needs.importan-changes-gatekeeper.outputs.app-changes == 'true'
