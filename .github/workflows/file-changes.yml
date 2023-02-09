@@ -17,9 +17,6 @@ jobs:
         fetch-depth: 2
         
     - name: check1
-      run: echo ${{steps.check1.outputs.docs_changed}}
-
-    - name: check1
       shell: pwsh
       # Give an id to the step, so we can reference it later
       id: check_file_changed
@@ -38,7 +35,7 @@ jobs:
 
         echo "docs_changed={$HasDiff}" >> $GITHUB_OUTPUT
         
-    - name: check1
+    - name: check2
       run: |
         echo "docs_changed: ${{steps.check1.outputs.docs_changed}}"
 
