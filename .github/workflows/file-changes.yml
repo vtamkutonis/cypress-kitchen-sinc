@@ -13,10 +13,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        # Checkout as many commits as needed for the diff
+        fetch-depth: 2
         
-    - name: check1
+    - name: check1-step
       shell: pwsh
-      id: check_file_changed
+      id: check1
       run: |
         $diff = git diff --name-only HEAD^ HEAD
 
