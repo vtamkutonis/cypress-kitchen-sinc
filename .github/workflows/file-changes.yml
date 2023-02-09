@@ -8,42 +8,18 @@ on:
 jobs:
   job1:
     runs-on: ubuntu-latest
-    outputs:
-      docs_changed: ${{ steps.check1.outputs.docs_changed }}    
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
         
-    - name: check1-step
-      shell: pwsh
-      id: check1
-      run: |
-        $diff = git diff --name-only HEAD^ HEAD
-        $filter = "^app/",".yml$" -join '|'
-        
-        $SourceDiff = $diff | Where {$_ -match $filter}
-        $HasDiff = $SourceDiff.Length -gt 0
-
-        echo $SourceDiff.Length
-        echo $HasDiff
-        echo $diff.Length
-        echo $diff
-
-        echo "docs_changed=$HasDiff" >> $env:GITHUB_OUTPUT
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          app-changes:
+            - 'app/**'
 
         
     - name: check2
       run: |
-        echo "docs_changed: " ${{steps.check1.outputs.docs_changed}}
-
-  job2:
-    runs-on: ubuntu-latest
-    needs: job1
-    steps:
-      - run: |
-          echo "docs_changed: " ${{needs.job1.outputs.docs_changed}}
-          
-      - name: cond
-        if: needs.job1.outputs.docs_changed == 'True'
-        run: |
-          echo "YES docs_changed: " ${{needs.job1.outputs.docs_changed}}
+        echo "app-changes: " ${{steps.changes.outputs.app-changes}}
