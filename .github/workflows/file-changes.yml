@@ -12,10 +12,23 @@ jobs:
       docs_changed: ${{ steps.check1.outputs.docs_changed }}
 
     steps:
-    - id: check1
-      run: echo "docs_changed=True" >> $GITHUB_OUTPUT
+    - name: check1
+      id: check_file_changed
+      run: |
+        echo $diff = git diff --name-only HEAD^ HEAD
         
+        echo $filter = "^app/",".yml$" -join '|'   
+        
+        echo $SourceDiff = $diff | Where {$_ -match $filter}
+        echo $HasDiff = $SourceDiff.Length -gt 0
 
+        echo $SourceDiff.Length
+        echo $HasDiff
+        echo $diff.Length
+        echo $diff
+
+        echo "docs_changed={$HasDiff}" >> $GITHUB_OUTPUT
+        
     - name: check2
       run: |
         echo "docs_changed: " ${{steps.check1.outputs.docs_changed}}
