@@ -23,16 +23,13 @@ jobs:
         filters: |
           app-changes:
             - 'app/**'
-          ts-changes:
-            - '![(app)(scripts)]/**.ts'
-          js-changes:
-            - '![(app)(scripts)]/**.js'
+          tsjs-changes:
+            - '!{app,script}/**.{ts,js}'
         
     - name: output
       run: |
         echo "app-changes: " ${{steps.changes.outputs.app-changes}}
-        echo "ts-changes: " ${{steps.changes.outputs.ts-changes}}
-        echo "js-changes: " ${{steps.changes.outputs.js-changes}}
+        echo "tsjs-changes: " ${{steps.changes.outputs.tsjs-changes}}
       
   run-what-needed:
     runs-on: ubuntu-latest
