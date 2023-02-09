@@ -18,7 +18,7 @@ jobs:
       shell: pwsh
       id: check1
       run: |
-        $diff = git diff --no-commit-id  --diff-filter=ACMRT --name-only HEAD^ HEAD
+        $diff = git diff --name-only HEAD^ HEAD
         $filter = "^app/",".yml$" -join '|'
         
         $SourceDiff = $diff | Where {$_ -match $filter}
