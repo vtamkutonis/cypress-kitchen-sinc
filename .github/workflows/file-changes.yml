@@ -7,6 +7,45 @@ on:
       - 'master'
       
   workflow_dispatch:
+    inputs:
+      test-suite:
+        type: choice
+        description: 'Run Test Suite'
+        default: "-all-"
+        options:
+          - "-all-"
+          - "Query Helper"
+          - "APIHandler"
+          - "ListingManager"
+          - "EntityHelper"
+          - "PaymentService"
+          - "ExternalOrdersHandler"
+          - "ticketsHooks"
+          - "WebhooksHandler"
+          - "AvailableBalanceHandler"
+          - "BalanceManager"
+          - "UUID"
+          - "listingUtil"
+          - "dateUtil"
+      test-suite2:
+        type: choice
+        description: 'Run Test Suite'
+        default: "-all-"
+        options:
+          - "-all-"
+          - "Query Helper"
+          - "APIHandler"
+          - "ListingManager"
+          - "EntityHelper"
+          - "PaymentService"
+          - "ExternalOrdersHandler"
+          - "ticketsHooks"
+          - "WebhooksHandler"
+          - "AvailableBalanceHandler"
+          - "BalanceManager"
+          - "UUID"
+          - "listingUtil"
+          - "dateUtil"
   
 jobs:
   job1:
@@ -15,6 +54,8 @@ jobs:
     
     env:
       run-on-demand: ${{ github.event_name == 'workflow_dispatch' }}
+      test-suite:    ${{ github.event.inputs.test-suite || '-all-' }}
+      test-suite2:    ${{ github.event.inputs.test-suite || '-all-' }}
 
     steps:
     - uses: actions/checkout@v3
@@ -22,9 +63,9 @@ jobs:
     - name: run-on-demand
       if: env.run-on-demand
       run: |
-        echo "run-on-demand Event: " ${{ github.event_name }}
+        echo "run-on-demand Event: " ${{ github.event_name }} ${{env.test-suite}} ${{env.test-suite2}}
         
     - name: NOT-run-on-demand
-      if:  env.run-on-demand == false
+      if:  env.run-on-demand == false || (env.test-suite == 'UUID' && env.test-suite == 'dateUtil')
       run: |
-        echo "NOT run-on-demand Event: " ${{ github.event_name }}
+        echo ${{env.test-suite}} ${{env.test-suite2}}
