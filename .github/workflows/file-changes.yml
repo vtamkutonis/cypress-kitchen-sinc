@@ -63,9 +63,9 @@ jobs:
     - name: run-on-demand
       if: env.run-on-demand
       run: |
-        echo "run-on-demand Event: " ${{ github.event_name }} ${{env.test-suite}} ${{env.test-suite2}}
+        echo "run-on-demand" ${{env.test-suite}} ${{env.test-suite2}}
         
     - name: NOT-run-on-demand
-      if:  env.run-on-demand == false || (env.test-suite == 'UUID' && env.test-suite == 'dateUtil')
+      if:  env.run-on-demand == false || (env.test-suite == 'UUID' && env.test-suite2 == 'dateUtil')
       run: |
         echo ${{env.test-suite}} ${{env.test-suite2}}
