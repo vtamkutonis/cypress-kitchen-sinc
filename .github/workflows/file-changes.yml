@@ -16,6 +16,9 @@ jobs:
     outputs:
       app-changes: ${{ steps.changes.outputs.app-changes }} 
 
+    env:
+      are_changes: Monday
+
     steps:
     - uses: dorny/paths-filter@v2
       id: changes
@@ -28,8 +31,10 @@ jobs:
         
     - name: output
       run: |
+        $are_changes = steps.changes.outputs.app-changes || steps.changes.outputs.tsjs-changes
         echo "app-changes: " ${{steps.changes.outputs.app-changes}}
         echo "tsjs-changes: " ${{steps.changes.outputs.tsjs-changes}}
+        echo "are_changes: " $are_changes
       
   run-what-needed:
     runs-on: ubuntu-latest
