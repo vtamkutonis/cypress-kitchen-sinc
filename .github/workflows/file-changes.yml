@@ -49,7 +49,10 @@ on:
   
 jobs:
   job1:
-    if: startsWith(github.head_ref, 'chore/') == false && startsWith(github.head_ref, 'docs/') == false
+    if: startsWith(github.head_ref, 'chore/') == false 
+        && startsWith(github.head_ref, 'docs/') == false
+        && startsWith(github.head_ref, 'docs/') == false
+        && startsWith(github.head_ref, 'docs/') == false
     runs-on: ubuntu-latest
     
     env:
