@@ -37,10 +37,15 @@ jobs:
         echo $diff.Length
         echo $diff
 
+        echo " - 1."
         echo docs_changed={$HasDiff} >> $GITHUB_OUTPUT
+        echo " - 2."
         echo "docs_changed1={$HasDiff}" >> $GITHUB_OUTPUT
+        echo " - 3."
         echo "{docs_changed2}={$HasDiff}" >> $GITHUB_OUTPUT      
+        echo " - 4."
         echo docs_changed3={$HasDiff} >> $env:GITHUB_OUTPUT
+        echo " - 5."
         echo docs_changed4=$HasDiff >> $env:GITHUB_OUTPUT
         
     - name: check2
