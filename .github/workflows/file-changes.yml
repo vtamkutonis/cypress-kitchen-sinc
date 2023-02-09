@@ -45,8 +45,7 @@ jobs:
         echo "{docs_changed2}={$HasDiff}" >> $GITHUB_OUTPUT      
         echo " - 4."
         echo docs_changed3={$HasDiff} >> $env:GITHUB_OUTPUT
-        echo " - 5."
-        echo docs_changed4=$HasDiff >> $env:GITHUB_OUTPUT
+
         
     - name: check2
       run: |
