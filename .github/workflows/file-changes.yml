@@ -38,7 +38,7 @@ jobs:
     needs: importan-changes-gatekeeper
 
     env:
-      are_changes: (needs.importan-changes-gatekeeper.outputs.app-change == 'true') || (needs.importan-changes-gatekeeper.outputs.tsjs-change == 'true')
+      are_changes: ${{ (needs.importan-changes-gatekeeper.outputs.app-change == 'true') || (needs.importan-changes-gatekeeper.outputs.tsjs-change == 'true') }}
 
     steps:
     - uses: actions/checkout@v2
