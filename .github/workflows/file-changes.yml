@@ -18,10 +18,23 @@ jobs:
       
     env:      
       node_version: "--version"
+      run-on-demand: ${{ github.event_name == 'workflow_dispatch' }}
+      
+
 
     steps:
-    - run: |
-       echo "actor " ${{ github.actor }}
+    - name: aa
+      if: env.run-on-demand
+      run: |
+       echo " run-on-demand -- actor " ${{ github.actor }}
+       echo "Trig actor " ${{ github.triggering_actor }}
+       echo "Branch: " ${{ github.head_ref }}
+       node ${{ env.node_version }}
+       
+    - name: bb
+      if: env.run-on-demand == false
+      run: |
+       echo "not run-on-demand || actor " ${{ github.actor }}
        echo "Trig actor " ${{ github.triggering_actor }}
        echo "Branch: " ${{ github.head_ref }}
        node ${{ env.node_version }}
