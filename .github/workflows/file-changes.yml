@@ -9,11 +9,7 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     outputs:
-      docs_changed: ${{ steps.check1.outputs.docs_changed }}
-      docs_changed1: ${{ steps.check1.outputs.docs_changed1 }}
-      docs_changed2: ${{ steps.check1.outputs.docs_changed2 }}
-      docs_changed3: ${{ steps.check1.outputs.docs_changed3 }}
-      docs_changed4: ${{ steps.check1.outputs.docs_changed4 }}
+      docs_changed: ${{ steps.check1.outputs.docs_changed }}    
 
     steps:
     - uses: actions/checkout@v2
@@ -37,23 +33,12 @@ jobs:
         echo $diff.Length
         echo $diff
 
-        echo " - 1."
-        echo docs_changed={$HasDiff} >> $GITHUB_OUTPUT
-        echo " - 2."
-        echo "docs_changed1={$HasDiff}" >> $GITHUB_OUTPUT
-        echo " - 3."
-        echo "{docs_changed2}={$HasDiff}" >> $GITHUB_OUTPUT      
-        echo " - 4."
-        echo "docs_changed3={$HasDiff}" >> $env:GITHUB_OUTPUT
+        echo "docs_changed=$HasDiff" >> $env:GITHUB_OUTPUT
 
         
     - name: check2
       run: |
         echo "docs_changed: " ${{steps.check1.outputs.docs_changed}}
-        echo "docs_changed1: " ${{steps.check1.outputs.docs_changed1}}
-        echo "docs_changed2: " ${{steps.check1.outputs.docs_changed2}}        
-        echo "docs_changed3: " ${{steps.check1.outputs.docs_changed3}}
-        echo "docs_changed4: " ${{steps.check1.outputs.docs_changed4}}
 
   job2:
     runs-on: ubuntu-latest
