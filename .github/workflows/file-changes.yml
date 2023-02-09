@@ -17,9 +17,9 @@ jobs:
       app-changes: ${{ steps.changes.outputs.app-changes }} 
       
     env:      
-      node_version: "node --version"
+      node_version: "--version"
 
     steps:
     - run: |
-       echo ${{ env.node_version }}
+       node ${{ env.node_version }}
    
