@@ -48,5 +48,5 @@ jobs:
           
       - name: cond
         if: needs.job1.outputs.docs_changed == 'True'
-      - run: |
+        run: |
           echo "YES docs_changed: " ${{needs.job1.outputs.docs_changed}}
