@@ -33,6 +33,8 @@ jobs:
       
   run-what-needed:
     runs-on: ubuntu-latest
+    
+    needs: detect-important-changes
 
     steps:
     - uses: actions/checkout@v2
