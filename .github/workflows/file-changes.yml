@@ -13,15 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        # Checkout as many commits as needed for the diff
-        fetch-depth: 2
         
     - name: check1-step
       shell: pwsh
       id: check1
       run: |
-        $diff = git diff --name-only HEAD^ HEAD
+        $diff = git diff --no-commit-id --name-only --diff-filter=ACMRT HEAD^ HEAD
 
         $filter = "^app/",".yml$" -join '|'
         
