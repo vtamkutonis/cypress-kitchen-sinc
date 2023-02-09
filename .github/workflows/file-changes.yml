@@ -66,6 +66,6 @@ jobs:
         echo "run-on-demand" ${{env.test-suite}} ${{env.test-suite2}}
         
     - name: NOT-run-on-demand
-      if:  env.run-on-demand == false || (env.test-suite == 'UUID' && env.test-suite2 == 'dateUtil')
+      if:  env.run-on-demand == false || (env.test-suite == 'UUID' && env.test-suite2 != '-all-')
       run: |
         echo ${{env.test-suite}} ${{env.test-suite2}}
