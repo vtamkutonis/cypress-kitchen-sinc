@@ -23,8 +23,8 @@ jobs:
           cypress-changes:
             - 'cypress/**'
           json-or-yml-changes:
-            - '.json^'
-            - '.yml^'
+            - '*.json'
+            - '*.yml'
 
         
     - name: check2
