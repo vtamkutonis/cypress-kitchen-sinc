@@ -40,6 +40,12 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: output
+      if: needs.importan-changes-gatekeeper.outputs.app-changes == 'true'
       run: |
-        echo "app-changes: " ${{needs.importan-changes-gatekeeper.outputs.app-changes}}
+        echo "YES app-changes: " ${{needs.importan-changes-gatekeeper.outputs.app-changes}}
+      
+    - name: output
+      if: needs.importan-changes-gatekeeper.outputs.app-changes != 'true'
+      run: |
+        echo "NOT app-changes: " ${{needs.importan-changes-gatekeeper.outputs.app-changes}}
       
