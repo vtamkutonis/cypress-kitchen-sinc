@@ -8,9 +8,13 @@ on:
   
   
 jobs:
-  job1:
+  detect-important-changes:
     if: startsWith(github.head_ref, 'chore/') == false && startsWith(github.head_ref, 'docs/') == false
+    
     runs-on: ubuntu-latest
+
+    outputs:
+      app-changes: ${{ steps.changes.outputs.app-changes }} 
 
     steps:
     - uses: actions/checkout@v3
@@ -21,15 +25,19 @@ jobs:
         filters: |
           app-changes:
             - 'app/**'
-          cypress-changes:
-            - 'cypress/**'
-          json-or-yml-changes:
-            - '**.json'
-            - '**.yml'
 
         
-    - name: check2
+    - name: output
       run: |
         echo "app-changes: " ${{steps.changes.outputs.app-changes}}
-        echo "cypress-changes: " ${{steps.changes.outputs.cypress-changes}}
-        echo "json-or-yml-changes: " ${{steps.changes.outputs.json-or-yml-changes}}
+      
+  run-what-needed:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: output
+      run: |
+        echo "app-changes: " ${{needs.detect-important-changes.outputs.app-changes}}
+      
