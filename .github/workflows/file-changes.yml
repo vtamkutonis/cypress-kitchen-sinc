@@ -12,26 +12,19 @@ jobs:
   job1:
     if: startsWith(github.head_ref, 'chore/') == false && startsWith(github.head_ref, 'docs/') == false
     runs-on: ubuntu-latest
+    
+    env:
+      run-on-demand: ${{ github.event_name == 'workflow_dispatch' }}
 
     steps:
     - uses: actions/checkout@v3
-        
-    - uses: dorny/paths-filter@v2
-      id: changes
-      with:
-        filters: |
-          app-changes:
-            - 'app/**'
-          cypress-changes:
-            - 'cypress/**'
-          json-or-yml-changes:
-            - '**.json'
-            - '**.yml'
 
-        
-    - name: check2
+    - name: run-on-demand
+      if: run-on-demand
       run: |
-        echo "Event: " ${{ github.event }}
-        echo "app-changes: " ${{steps.changes.outputs.app-changes}}
-        echo "cypress-changes: " ${{steps.changes.outputs.cypress-changes}}
-        echo "json-or-yml-changes: " ${{steps.changes.outputs.json-or-yml-changes}}
+        echo "run-on-demand Event: " ${{ github.event_name }}
+        
+    - name: NOT-run-on-demand
+      if: run-on-demand == false
+      run: |
+        echo "NOT run-on-demand Event: " ${{ github.event_name }}
