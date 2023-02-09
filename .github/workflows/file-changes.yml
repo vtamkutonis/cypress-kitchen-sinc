@@ -23,6 +23,8 @@ jobs:
         filters: |
           app-changes:
             - 'app/**'
+          not-changes:
+            - '!(app)/**'
         
     - name: output
       run: |
