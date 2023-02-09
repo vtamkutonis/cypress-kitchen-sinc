@@ -55,7 +55,7 @@ jobs:
     env:
       run-on-demand: ${{ github.event_name == 'workflow_dispatch' }}
       test-suite:    ${{ github.event.inputs.test-suite || '-all-' }}
-      test-suite2:    ${{ github.event.inputs.test-suite || '-all-' }}
+      test-suite2:    ${{ github.event.inputs.test-suite2 || '-all-' }}
 
     steps:
     - uses: actions/checkout@v3
