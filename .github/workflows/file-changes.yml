@@ -30,7 +30,6 @@ jobs:
       run: |
         echo "app-changes: " ${{steps.changes.outputs.app-changes}}
         echo "tsjs-changes: " ${{steps.changes.outputs.tsjs-changes}}
-        echo "are_changes: " $are_changes
       
   run-what-needed:
     runs-on: ubuntu-latest
@@ -38,7 +37,7 @@ jobs:
     needs: importan-changes-gatekeeper
 
     env:
-      are_changes: ${{ (needs.importan-changes-gatekeeper.outputs.app-change == 'true') || (needs.importan-changes-gatekeeper.outputs.tsjs-change == 'true') }}
+      are_changes: ${{ (needs.importan-changes-gatekeeper.outputs.app-changes == 'true') || (needs.importan-changes-gatekeeper.outputs.tsjs-changes == 'true') }}
 
     steps:
     - uses: actions/checkout@v2
