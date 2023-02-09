@@ -2,7 +2,7 @@ name: Check Versions
 
 on:  
   push:
-    branches: [ "main" ]
+    branches: [ "xx" ]
   workflow_dispatch:
     inputs:
       test-group: 
