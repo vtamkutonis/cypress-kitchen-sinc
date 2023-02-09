@@ -45,7 +45,7 @@ jobs:
 
     - name: output
       run: |
-        echo "are_changes: " ${{env.are_changes}}
+        echo "are_changes: " ${{ env.are_changes }}
 
     - name: output
       if: needs.importan-changes-gatekeeper.outputs.app-changes == 'true'
