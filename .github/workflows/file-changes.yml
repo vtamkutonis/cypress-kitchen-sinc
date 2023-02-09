@@ -13,21 +13,23 @@ jobs:
 
     steps:
     - name: check1
+      shell: bash
+
       id: check_file_changed
       run: |
-        echo $diff = git diff --name-only HEAD^ HEAD
+        $diff = git diff --name-only HEAD^ HEAD
+
+        $filter = "^app/",".yml$" -join '|'
         
-        echo $filter = "^app/",".yml$" -join '|'   
-        
-        echo $SourceDiff = $diff | Where {$_ -match $filter}
-        echo $HasDiff = $SourceDiff.Length -gt 0
+        $SourceDiff = $diff | Where {$_ -match $filter}
+        $HasDiff = $SourceDiff.Length -gt 0
 
         echo $SourceDiff.Length
         echo $HasDiff
         echo $diff.Length
         echo $diff
 
-        echo "docs_changed={$HasDiff}" >> $GITHUB_OUTPUT
+        echo docs_changed=$HasDiff >> $GITHUB_OUTPUT
         
     - name: check2
       run: |
