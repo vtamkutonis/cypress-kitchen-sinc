@@ -29,6 +29,7 @@ jobs:
     - name: output
       run: |
         echo "app-changes: " ${{steps.changes.outputs.app-changes}}
+        echo "not-changes: " ${{steps.changes.outputs.not-changes}}
       
   run-what-needed:
     runs-on: ubuntu-latest
