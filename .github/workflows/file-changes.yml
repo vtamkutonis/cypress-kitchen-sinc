@@ -24,7 +24,7 @@ jobs:
           app-changes:
             - 'app/**'
           not-changes:
-            - '!(app)/**'
+            - '!(app)/**{.ts, .js}'
         
     - name: output
       run: |
