@@ -7,68 +7,21 @@ on:
       - 'master'
       
   workflow_dispatch:
-    inputs:
-      test-suite:
-        type: choice
-        description: 'Run Test Suite'
-        default: "-all-"
-        options:
-          - "-all-"
-          - "Query Helper"
-          - "APIHandler"
-          - "ListingManager"
-          - "EntityHelper"
-          - "PaymentService"
-          - "ExternalOrdersHandler"
-          - "ticketsHooks"
-          - "WebhooksHandler"
-          - "AvailableBalanceHandler"
-          - "BalanceManager"
-          - "UUID"
-          - "listingUtil"
-          - "dateUtil"
-      test-suite2:
-        type: choice
-        description: 'Run Test Suite'
-        default: "-all-"
-        options:
-          - "-all-"
-          - "Query Helper"
-          - "APIHandler"
-          - "ListingManager"
-          - "EntityHelper"
-          - "PaymentService"
-          - "ExternalOrdersHandler"
-          - "ticketsHooks"
-          - "WebhooksHandler"
-          - "AvailableBalanceHandler"
-          - "BalanceManager"
-          - "UUID"
-          - "listingUtil"
-          - "dateUtil"
-  
+
 jobs:
-  job1:
-    if: startsWith(github.head_ref, 'chore/') == false 
-        && startsWith(github.head_ref, 'docs/') == false
-        && startsWith(github.head_ref, 'docs/') == false
-        && startsWith(github.head_ref, 'docs/') == false
+  job1:  
     runs-on: ubuntu-latest
     
-    env:
-      run-on-demand: ${{ github.event_name == 'workflow_dispatch' }}
-      test-suite:    ${{ github.event.inputs.test-suite || '-all-' }}
-      test-suite2:    ${{ github.event.inputs.test-suite2 || '-all-' }}
-
     steps:
     - uses: actions/checkout@v3
 
-    - name: run-on-demand
-      if: env.run-on-demand
+    - name: s1
       run: |
-        echo "run-on-demand" ${{env.test-suite}} ${{env.test-suite2}}
+        cd ./scripts
+        lst
+  
+    - name: s2
+      run: |
+        cd ../app
+        lst
         
-    - name: NOT-run-on-demand
-      if:  env.run-on-demand == false || (env.test-suite == 'UUID' && env.test-suite2 != '-all-')
-      run: |
-        echo ${{env.test-suite}} ${{env.test-suite2}}
