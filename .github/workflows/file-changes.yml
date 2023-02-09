@@ -32,7 +32,8 @@ jobs:
         echo $diff.Length
         echo $diff
 
-        echo "docs_changed=$HasDiff" >> $GITHUB_OUTPUT
+        #echo "docs_changed=$HasDiff" >> $GITHUB_OUTPUT
+        echo "docs_changed=True" >> $GITHUB_OUTPUT
         
     - name: check2
       run: |
