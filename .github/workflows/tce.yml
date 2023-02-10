@@ -8,41 +8,27 @@ on:
       - 'main'
   workflow_dispatch:
     inputs:
-      spec-file:
+      environment:
         type: choice
-        description: 'Run only test'
-        default: "-all-"
+        description: 'Environment'
+        default: "sandbox"
         options:
-          - "-all-"
-          - "login"
-          - "quickSearch"
-          - "profile"
-          - "event"
-          - "buy_tests/ticket_buy_bank"
+          - "sandbox"
+          - "production"
 
 jobs:
   give-info:  
       
     runs-on: ubuntu-latest
     
-    env:
-      spec-file: ${{ github.event.inputs.spec-file || '-all-' }}
-      
-      
+    environment: ${{github.event.inputs.environment || 'sandbox' }}
    
     steps:
 
       - name: Info
         run: |
-          echo "env.spec-file: " ${{ env.spec-file }}
-          echo "Event: " ${{ github.event_name }}
-          echo "pull_request.title: " ${{ github.event.pull_request.title }}
-          echo "pull_request.draft: " ${{ github.event.pull_request.draft }}
+          echo "env.CI_SOME_KEY:" ${{ env.CI_SOME_KEY }}
+          echo "Event:" ${{ github.event_name }}
+          echo "pull_request.title:" ${{ github.event.pull_request.title }}
+          echo "pull_request.draft:" ${{ github.event.pull_request.draft }}
           
-      - name: Run spec
-        if: env.spec-file != '-all-'
-        run: |
-          echo "Will run only: " ${{ env.spec-file }}
-          npm run test --spec "cypress/e2e/${{ env.spec-file }}.cy.js"
-        
-
