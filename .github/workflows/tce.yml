@@ -6,23 +6,43 @@ on:
     branches:
       - 'next'
       - 'main'
+  workflow_dispatch:
+    inputs:
+      spec-file:
+        type: choice
+        description: 'Run only test'
+        default: "-all-"
+        options:
+          - "-all-"
+          - "login"
+          - "quickSearch"
+          - "profile"
+          - "event"
+          - "buy_tests/ticket_buy_bank"
 
 jobs:
-  give-info:
-    if: startsWith(github.head_ref, 'chore/') == false
-      && startsWith(github.head_ref, 'docs/') == false
-      && github.event.pull_request.draft == false
-      && startsWith(github.event.pull_request.title, 'draft:') == false
-      && startsWith(github.event.pull_request.title, '[wip]') == false
-   
+  give-info:  
+      
     runs-on: ubuntu-latest
+    
+    env:
+      spec-file: ${{ github.event.inputs.spec-file || '-all-' }}
+      
+      
    
     steps:
+
       - name: Info
         run: |
-          echo "Head ref: " ${{ github.head_ref }}
-          echo "Ref type and name: " ${{ github.ref_type }} ${{ github.ref_name }}
+          echo "env.spec-file: " ${{ env.spec-file }}
           echo "Event: " ${{ github.event_name }}
           echo "pull_request.title: " ${{ github.event.pull_request.title }}
           echo "pull_request.draft: " ${{ github.event.pull_request.draft }}
+          
+      - name: Run spec
+        if: env.spec-file != '-all-'
+        run: |
+          echo "Will run only: " ${{ env.spec-file }}
+          npm run test --spec \"cypress/e2e/${{ env.spec-file }}.cy.js\"
+        
 
