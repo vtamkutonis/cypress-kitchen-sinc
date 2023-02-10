@@ -21,7 +21,7 @@ jobs:
       - name: Info
         run: |
           echo "Head ref: " ${{ github.head_ref }}
-          echo "Ref type and name: " ${{ github.ref_type github.ref_name}}
+          echo "Ref type and name: " ${{ github.ref_type }} ${{ github.ref_name }}
           echo "Event: " ${{ github.event_name }}
           echo "pull_request.title: " ${{ github.event.pull_request.title }}
           echo "pull_request.draft: " ${{ github.event.pull_request.draft }}
