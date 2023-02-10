@@ -5,10 +5,15 @@ on:
     types: [opened, reopened, synchronize, edited]
     branches:
       - 'next'
-      - 'master'
+      - 'main'
 
 jobs:
   give-info:
+    if: startsWith(github.head_ref, 'chore/') == false
+      && startsWith(github.head_ref, 'docs/') == false
+      && github.event.pull_request.draft == false
+      && startsWith(github.event.pull_request.title, 'draft:') == false
+      && startsWith(github.event.pull_request.title, '[wip]') == false
    
     runs-on: ubuntu-latest
    
