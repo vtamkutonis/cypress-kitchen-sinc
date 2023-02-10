@@ -81,7 +81,7 @@ context('Files', () => {
     })
 
     cy.fixture('profile').should((profile) => {
-      expect(profile.name).to.eq('Janex')
+      expect(profile.name).to.eq('Jane')
     })
   })
 })
