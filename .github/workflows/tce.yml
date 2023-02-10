@@ -27,7 +27,7 @@ jobs:
 
       - name: Info
         run: |
-          echo "env.CI_SOME_KEY:" ${{ env.CI_SOME_KEY }}
+          echo "vars.CI_SOME_KEY:" ${{ vars.CI_SOME_KEY }}
           echo "Event:" ${{ github.event_name }}
           echo "pull_request.title:" ${{ github.event.pull_request.title }}
           echo "pull_request.draft:" ${{ github.event.pull_request.draft }}
