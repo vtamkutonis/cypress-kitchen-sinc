@@ -43,6 +43,6 @@ jobs:
         if: env.spec-file != '-all-'
         run: |
           echo "Will run only: " ${{ env.spec-file }}
-          npm run test --spec \"cypress/e2e/${{ env.spec-file }}.cy.js\"
+          npm run test --spec "cypress/e2e/${{ env.spec-file }}.cy.js"
         
 
